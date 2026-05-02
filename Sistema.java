@@ -1,56 +1,56 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class D {
-  String t;
-  String c;
+class Noticia {
+  String texto;
+  String classificacao;
 }
 
 public class Sistema {
 
-  static ArrayList<D> data = new ArrayList<>();
+  static ArrayList<Noticia> listaNoticia = new ArrayList<>();
 
   // função que faz tudo
-  public static void f(String a, String b) {
+  public static void adicionarNoticia(String texto, String classificacao) {
     // adiciona coisa
-    if (a != null && !a.equals("")) {
-      D d = new D();
-      d.t = a;
+    if (texto != null && !texto.equals("")) {
+      Noticia noticia = new Noticia();
+      noticia.texto = texto;
 
-      if (b == null || b.equals("")) {
-          d.c = "duvidosa";
+      if (classificacao == null || classificacao.equals("")) {
+          noticia.classificacao = "duvidosa";
       } else {
-          d.c = b;
+          noticia.classificacao = classificacao;
       }
 
-      data.add(d);
+      listaNoticia.add(noticia);
     } else {
       System.out.println("erro");
     }
   }
 
-  public static void func2() {
+  public static void listarNoticias() {
     // lista tudo
-    for (int i = 0; i < data.size(); i++) {
-      System.out.println("Texto: " + data.get(i).t);
-      System.out.println("Classificacao: " + data.get(i).c);
+    for (int i = 0; i < listaNoticia.size(); i++) {
+      System.out.println("Texto: " + listaNoticia.get(i).texto);
+      System.out.println("Classificacao: " + listaNoticia.get(i).classificacao);
       System.out.println("-------------------");
     }
   }
 
-  public static String analisar(String txt) {
+  public static String analisarClassificacaoDaNoticia(String texto) {
     int score = 0;
 
-    if (!txt.contains("FONTE")) {
+    if (!texto.contains("FONTE")) {
         score = score + 1;
     }
-    if (txt.contains("!!!")) {
+    if (texto.contains("!!!")) {
         score = score + 1;
     }
-    if (txt.contains("URGENTE")) {
+    if (texto.contains("URGENTE")) {
         score = score + 1;
     }
-    if (txt.length() < 10) {
+    if (texto.length() < 10) {
         score = score + 1;
     }
 
@@ -63,29 +63,29 @@ public class Sistema {
     }
   }
 
-  public static void addManual(Scanner sc) {
+  public static void adicionarNoticiaManual(Scanner sc) {
     System.out.print("Digite o texto: ");
-    String t = sc.nextLine();
+    String texto = sc.nextLine();
 
     System.out.print("Digite classificacao: ");
-    String c = sc.nextLine();
+    String classificacao = sc.nextLine();
 
-    if (c.equals("")) {
-        f(t, null);
+    if (classificacao.equals("")) {
+        adicionarNoticia(texto, null);
     } else {
-        f(t, c);
+        adicionarNoticia(texto, classificacao);
     }
   }
 
-  public static void addAuto(Scanner sc) {
+  public static void adicionarNoticiaAutomatica(Scanner sc) {
     System.out.print("Digite o texto: ");
-    String t = sc.nextLine();
+    String texto = sc.nextLine();
 
-    String c = analisar(t);
-    f(t, c);
+    String classificacao = analisarClassificacaoDaNoticia(texto);
+    adicionarNoticia(texto, classificacao);
   }
 
-  public static void menu() {
+  public static void executarMenu() {
     Scanner sc = new Scanner(System.in);
 
     while (true) {
@@ -94,15 +94,15 @@ public class Sistema {
       System.out.println("3 - listar");
       System.out.println("4 - sair");
 
-      String op = sc.nextLine();
+      String opcao = sc.nextLine();
 
-      if (op.equals("1")) {
-        addManual(sc);
-      } else if (op.equals("2")) {
-        addAuto(sc);
-      } else if (op.equals("3")) {
-        func2();
-      } else if (op.equals("4")) {
+      if (opcao.equals("1")) {
+        adicionarNoticiaManual(sc);
+      } else if (opcao.equals("2")) {
+    	  adicionarNoticiaAutomatica(sc);
+      } else if (opcao.equals("3")) {
+        listarNoticias();
+      } else if (opcao.equals("4")) {
         break;
       } else {
         System.out.println("errado");
@@ -114,6 +114,6 @@ public class Sistema {
 
   // inicia programa
   public static void main(String[] args) {
-    menu();
+	 executarMenu();
   }
 }
