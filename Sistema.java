@@ -10,26 +10,7 @@ public class Sistema {
 
   static ArrayList<Noticia> listaNoticia = new ArrayList<>();
 
-  // função que faz tudo
-  /*public static void adicionarNoticia(String texto, String classificacao) {
-    // adiciona coisa
-    if (texto != null && !texto.equals("")) {
-      Noticia noticia = new Noticia();
-      noticia.texto = texto;
-
-      if (classificacao == null || classificacao.equals("")) {
-          noticia.classificacao = "duvidosa";
-      } else {
-          noticia.classificacao = classificacao;
-      }
-
-      listaNoticia.add(noticia);
-    } else {
-      System.out.println("erro");
-    }
-  }*/
-  
-  
+  //substitui f()
   public static void adicionarNoticia(String texto, String classificacao) {
       if (texto != null && !texto.equals("")) {
           Noticia noticia = criarNoticia(texto, classificacao);
@@ -38,21 +19,24 @@ public class Sistema {
           System.out.println("Erro: texto inválido.");
       }
   }
-
+  
+  //substitui f()
   public static Noticia criarNoticia(String texto, String classificacao) {
       Noticia noticia = new Noticia();
       noticia.texto = texto;
       noticia.classificacao = definirClassificacao(classificacao);
       return noticia;
   }
-
+  
+  //substitui f()
   public static String definirClassificacao(String classificacao) {
       if (classificacao == null || classificacao.equals("")) {
           return "duvidosa";
       }
       return classificacao;
   }
-
+  
+  //substitui f()
   public static void salvarNoticia(Noticia noticia) {
       listaNoticia.add(noticia);
   }
@@ -67,31 +51,39 @@ public class Sistema {
     }
   }
 
-  public static String analisarClassificacaoDaNoticia(String texto) {
-    int score = 0;
+  //substitui analisar()
+  public static int calcularScore(String texto) {
+	 int score = 0;
 
-    if (!texto.contains("FONTE")) {
-        score = score + 1;
-    }
-    if (texto.contains("!!!")) {
-        score = score + 1;
-    }
-    if (texto.contains("URGENTE")) {
-        score = score + 1;
-    }
-    if (texto.length() < 10) {
-        score = score + 1;
-    }
-
-    if (score == 0) {
-        return "confiavel";
-    } else if (score == 1) {
-        return "duvidosa";
-    } else {
-        return "falsa";
-    }
+	    if (!texto.contains("FONTE")) {
+	        score = score + 1;
+	    }
+	    if (texto.contains("!!!")) {
+	        score = score + 1;
+	    }
+	    if (texto.contains("URGENTE")) {
+	        score = score + 1;
+	    }
+	    if (texto.length() < 10) {
+	        score = score + 1;
+	    }
+	    
+	 return score;
   }
-
+  
+  //substitui analisar()
+  public static String analisarClassificacaoDaNoticia(String texto) {
+	  int score = calcularScore(texto);
+	  
+	  if (score == 0) {
+	        return "confiavel";
+	    } else if (score == 1) {
+	        return "duvidosa";
+	    } else {
+	        return "falsa";
+	    }
+  }
+  
   public static void adicionarNoticiaManual(Scanner sc) {
     System.out.print("Digite o texto: ");
     String texto = sc.nextLine();
@@ -128,7 +120,7 @@ public class Sistema {
       if (opcao.equals("1")) {
         adicionarNoticiaManual(sc);
       } else if (opcao.equals("2")) {
-    	  adicionarNoticiaAutomatica(sc);
+    	 adicionarNoticiaAutomatica(sc);
       } else if (opcao.equals("3")) {
         listarNoticias();
       } else if (opcao.equals("4")) {
