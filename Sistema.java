@@ -11,7 +11,7 @@ public class Sistema {
   static ArrayList<Noticia> listaNoticia = new ArrayList<>();
 
   // função que faz tudo
-  public static void adicionarNoticia(String texto, String classificacao) {
+  /*public static void adicionarNoticia(String texto, String classificacao) {
     // adiciona coisa
     if (texto != null && !texto.equals("")) {
       Noticia noticia = new Noticia();
@@ -27,7 +27,36 @@ public class Sistema {
     } else {
       System.out.println("erro");
     }
+  }*/
+  
+  
+  public static void adicionarNoticia(String texto, String classificacao) {
+      if (texto != null && !texto.equals("")) {
+          Noticia noticia = criarNoticia(texto, classificacao);
+          salvarNoticia(noticia);
+      } else {
+          System.out.println("Erro: texto inválido.");
+      }
   }
+
+  public static Noticia criarNoticia(String texto, String classificacao) {
+      Noticia noticia = new Noticia();
+      noticia.texto = texto;
+      noticia.classificacao = definirClassificacao(classificacao);
+      return noticia;
+  }
+
+  public static String definirClassificacao(String classificacao) {
+      if (classificacao == null || classificacao.equals("")) {
+          return "duvidosa";
+      }
+      return classificacao;
+  }
+
+  public static void salvarNoticia(Noticia noticia) {
+      listaNoticia.add(noticia);
+  }
+
 
   public static void listarNoticias() {
     // lista tudo
