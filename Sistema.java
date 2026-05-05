@@ -1,91 +1,112 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class D {
-  String t;
-  String c;
+class Noticia {
+  String texto;
+  String classificacao;
 }
 
 public class Sistema {
 
-  static ArrayList<D> data = new ArrayList<>();
+  static ArrayList<Noticia> listaNoticia = new ArrayList<>();
 
-  // função que faz tudo
-  public static void f(String a, String b) {
-    // adiciona coisa
-    if (a != null && !a.equals("")) {
-      D d = new D();
-      d.t = a;
-
-      if (b == null || b.equals("")) {
-          d.c = "duvidosa";
+  //substitui f()
+  public static void adicionarNoticia(String texto, String classificacao) {
+      if (texto != null && !texto.equals("")) {
+          Noticia noticia = criarNoticia(texto, classificacao);
+          salvarNoticia(noticia);
       } else {
-          d.c = b;
+          System.out.println("Erro: texto inválido.");
       }
-
-      data.add(d);
-    } else {
-      System.out.println("erro");
-    }
+  }
+  
+  //substitui f()
+  public static Noticia criarNoticia(String texto, String classificacao) {
+      Noticia noticia = new Noticia();
+      noticia.texto = texto;
+      noticia.classificacao = definirClassificacao(classificacao);
+      return noticia;
+  }
+  
+  //substitui f()
+  public static String definirClassificacao(String classificacao) {
+      if (classificacao == null || classificacao.equals("")) {
+          return "duvidosa";
+      }
+      return classificacao;
+  }
+  
+  //substitui f()
+  public static void salvarNoticia(Noticia noticia) {
+      listaNoticia.add(noticia);
   }
 
-  public static void func2() {
+
+  public static void listarNoticias() {
     // lista tudo
-    for (int i = 0; i < data.size(); i++) {
-      System.out.println("Texto: " + data.get(i).t);
-      System.out.println("Classificacao: " + data.get(i).c);
+    for (int i = 0; i < listaNoticia.size(); i++) {
+      System.out.println("Texto: " + listaNoticia.get(i).texto);
+      System.out.println("Classificacao: " + listaNoticia.get(i).classificacao);
       System.out.println("-------------------");
     }
   }
 
-  public static String analisar(String txt) {
-    int score = 0;
+  //substitui analisar()
+  public static int calcularScore(String texto) {
+	 int score = 0;
 
-    if (!txt.contains("FONTE")) {
-        score = score + 1;
-    }
-    if (txt.contains("!!!")) {
-        score = score + 1;
-    }
-    if (txt.contains("URGENTE")) {
-        score = score + 1;
-    }
-    if (txt.length() < 10) {
-        score = score + 1;
-    }
-
-    if (score == 0) {
-        return "confiavel";
-    } else if (score == 1) {
-        return "duvidosa";
-    } else {
-        return "falsa";
-    }
+	    if (!texto.contains("FONTE")) {
+	        score = score + 1;
+	    }
+	    if (texto.contains("!!!")) {
+	        score = score + 1;
+	    }
+	    if (texto.contains("URGENTE")) {
+	        score = score + 1;
+	    }
+	    if (texto.length() < 10) {
+	        score = score + 1;
+	    }
+	    
+	 return score;
   }
-
-  public static void addManual(Scanner sc) {
+  
+  //substitui analisar()
+  public static String analisarClassificacaoDaNoticia(String texto) {
+	  int score = calcularScore(texto);
+	  
+	  if (score == 0) {
+	        return "confiavel";
+	    } else if (score == 1) {
+	        return "duvidosa";
+	    } else {
+	        return "falsa";
+	    }
+  }
+  
+  public static void adicionarNoticiaManual(Scanner sc) {
     System.out.print("Digite o texto: ");
-    String t = sc.nextLine();
+    String texto = sc.nextLine();
 
     System.out.print("Digite classificacao: ");
-    String c = sc.nextLine();
+    String classificacao = sc.nextLine();
 
-    if (c.equals("")) {
-        f(t, null);
+    if (classificacao.equals("")) {
+        adicionarNoticia(texto, null);
     } else {
-        f(t, c);
+        adicionarNoticia(texto, classificacao);
     }
   }
 
-  public static void addAuto(Scanner sc) {
+  public static void adicionarNoticiaAutomatica(Scanner sc) {
     System.out.print("Digite o texto: ");
-    String t = sc.nextLine();
+    String texto = sc.nextLine();
 
-    String c = analisar(t);
-    f(t, c);
+    String classificacao = analisarClassificacaoDaNoticia(texto);
+    adicionarNoticia(texto, classificacao);
   }
 
-  public static void menu() {
+  public static void executarMenu() {
     Scanner sc = new Scanner(System.in);
 
     while (true) {
@@ -94,15 +115,15 @@ public class Sistema {
       System.out.println("3 - listar");
       System.out.println("4 - sair");
 
-      String op = sc.nextLine();
+      String opcao = sc.nextLine();
 
-      if (op.equals("1")) {
-        addManual(sc);
-      } else if (op.equals("2")) {
-        addAuto(sc);
-      } else if (op.equals("3")) {
-        func2();
-      } else if (op.equals("4")) {
+      if (opcao.equals("1")) {
+        adicionarNoticiaManual(sc);
+      } else if (opcao.equals("2")) {
+    	 adicionarNoticiaAutomatica(sc);
+      } else if (opcao.equals("3")) {
+        listarNoticias();
+      } else if (opcao.equals("4")) {
         break;
       } else {
         System.out.println("errado");
@@ -114,6 +135,6 @@ public class Sistema {
 
   // inicia programa
   public static void main(String[] args) {
-    menu();
+	 executarMenu();
   }
 }
