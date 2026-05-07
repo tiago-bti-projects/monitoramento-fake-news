@@ -1,6 +1,6 @@
 package main;
 
-import interfaces.Menu;
+import view.Menu;
 
 public class Sistema {
 	public static void main(String[] args) {

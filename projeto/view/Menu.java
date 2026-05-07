@@ -1,4 +1,4 @@
-package interfaces;
+package view;
 
 import java.util.Scanner;
 
@@ -7,8 +7,6 @@ import service.NoticiaService;
 
 public class Menu {
 
-    private NoticiaService noticiaService = new NoticiaService();
-    private AnaliseService analiseService = new AnaliseService();
 
     public void adicionarNoticiaManual(Scanner sc) {
         System.out.print("Digite o texto: ");
@@ -18,9 +16,9 @@ public class Menu {
         String classificacao = sc.nextLine();
 
         if (classificacao.equals("")) {
-            noticiaService.adicionarNoticia(texto, null);
+            NoticiaService.adicionarNoticia(texto, null);
         } else {
-            noticiaService.adicionarNoticia(texto, classificacao);
+            NoticiaService.adicionarNoticia(texto, classificacao);
         }
     }
 
@@ -28,9 +26,9 @@ public class Menu {
         System.out.print("Digite o texto: ");
         String texto = sc.nextLine();
 
-        String classificacao = analiseService.analisarClassificacaoDaNoticia(texto);
+        String classificacao = AnaliseService.analisarClassificacaoDaNoticia(texto);
 
-        noticiaService.adicionarNoticia(texto, classificacao);
+        NoticiaService.adicionarNoticia(texto, classificacao);
     }
 
     public  void executarMenu() {
@@ -49,7 +47,7 @@ public class Menu {
           } else if (opcao.equals("2")) {
         	 adicionarNoticiaAutomatica(sc);
           } else if (opcao.equals("3")) {
-            noticiaService.listarNoticias();
+            NoticiaService.listarNoticias();
           } else if (opcao.equals("4")) {
             break;
           } else {
