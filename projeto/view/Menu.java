@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import service.AnaliseService;
 import service.NoticiaService;
+import utils.ClassificacaoNoticia;
 
 public class Menu {
 
@@ -18,7 +19,10 @@ public class Menu {
         if (classificacao.equals("")) {
             NoticiaService.adicionarNoticia(texto, null);
         } else {
-            NoticiaService.adicionarNoticia(texto, classificacao);
+			ClassificacaoNoticia.getValidValue(classificacao).ifPresentOrElse(
+				classificacaoValida -> NoticiaService.adicionarNoticia(texto, classificacaoValida),
+				() -> System.err.println("ERRO: Classificação inválida")
+			);
         }
     }
 
@@ -26,7 +30,7 @@ public class Menu {
         System.out.print("Digite o texto: ");
         String texto = sc.nextLine();
 
-        String classificacao = AnaliseService.analisarClassificacaoDaNoticia(texto);
+        ClassificacaoNoticia classificacao = AnaliseService.analisarClassificacaoDaNoticia(texto);
 
         NoticiaService.adicionarNoticia(texto, classificacao);
     }
