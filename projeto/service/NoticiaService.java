@@ -21,8 +21,11 @@ public class NoticiaService {
 	  //substitui f()
 	  public static Noticia criarNoticia(String texto, String classificacao) {
 	      Noticia noticia = new Noticia();
-	      noticia.texto = texto;
-	      noticia.classificacao = definirClassificacao(classificacao);
+				String classificacaoTratada = definirClassificacao(classificacao);
+
+	      noticia.setTexto(texto);
+	      noticia.setClassificacao(classificacaoTratada);
+
 	      return noticia;
 	  }
 	  
@@ -43,8 +46,8 @@ public class NoticiaService {
 	  public static void listarNoticias() {
 	    // lista tudo
 	    for (int i = 0; i < listaNoticia.size(); i++) {
-	      System.out.println("Texto: " + listaNoticia.get(i).texto);
-	      System.out.println("Classificacao: " + listaNoticia.get(i).classificacao);
+	      System.out.println("Texto: " + listaNoticia.get(i).getTexto());
+	      System.out.println("Classificacao: " + listaNoticia.get(i).getClassificacao());
 	      System.out.println("-------------------");
 	    }
 	  }
