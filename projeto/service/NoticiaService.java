@@ -3,6 +3,7 @@ package service;
 import java.util.ArrayList;
 
 import model.Noticia;
+import utils.StringValidator;
 
 public class NoticiaService {
 	
@@ -10,31 +11,23 @@ public class NoticiaService {
 
 	  //substitui f()
 	  public static void adicionarNoticia(String texto, String classificacao) {
-	      if (texto != null && !texto.equals("")) {
-	          Noticia noticia = criarNoticia(texto, classificacao);
-	          salvarNoticia(noticia);
-	      } else {
-	          System.out.println("Erro: texto inválido.");
-	      }
+	      Noticia noticia = criarNoticia(texto, classificacao);
+				salvarNoticia(noticia);
 	  }
 	  
 	  //substitui f()
 	  public static Noticia criarNoticia(String texto, String classificacao) {
-	      Noticia noticia = new Noticia();
-				String classificacaoTratada = definirClassificacao(classificacao);
+			Noticia noticia = new Noticia();
 
-	      noticia.setTexto(texto);
-	      noticia.setClassificacao(classificacaoTratada);
+			StringValidator.validarString(texto).ifPresentOrElse(
+				(valor) -> noticia.setTexto(valor),
+				() -> System.err.println("ERRO: texto inválido")
+ 			);	
 
-	      return noticia;
-	  }
-	  
-	  //substitui f()
-	  public static String definirClassificacao(String classificacao) {
-	      if (classificacao == null || classificacao.equals("")) {
-	          return "duvidosa";
-	      }
-	      return classificacao;
+			String classificacaoTratada = StringValidator.validarString(classificacao, "duvidosa");
+			noticia.setClassificacao(classificacaoTratada);
+
+			return noticia;
 	  }
 	  
 	  //substitui f()
